@@ -1,4 +1,7 @@
-  
+define(['jquery'], function() {
+
+  'use strict';
+
   /************************************************************
   @description Eigenes Accordion Script ermöglicht das gleichzeitige
   öffnen mehrerer Accordion-Einträge
@@ -34,7 +37,7 @@
                               .addClass('current-tab-nav')
                               .removeAttr('tabindex')
                               .attr('aria-selected', 'true');
-      
+
       this.$first_tab_nav.next().addClass('next-tab');
       this.$tabs = $('.tab-content > div');
       this.$toggle_animation_items = $('body');
@@ -182,7 +185,7 @@
 
     },
     start_animation: function() {
-      
+
       // initialen aufruf durch .animated-tabs verhindern
       if (Tabs.skip_anim > 0) {
         Tabs.$animatedTabs.each(function() {
@@ -207,3 +210,5 @@
   };
 
   Tabs.init();
+
+});
