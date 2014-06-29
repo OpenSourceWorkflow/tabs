@@ -1,7 +1,8 @@
 tabs
 ====
 
-Simple Tab Script (AMD, Bower). Change animation defaults in init();
+Simple Tab Script (AMD, Bower).
+Change animation defaults in init();
 
 Additional Features
 -------------------
@@ -32,12 +33,6 @@ Usage
     </div>
   </div>
 </div>
-```
-
-```javascript
-$('.equal-container').each(function() {
-  $(this).find('.equal').equalheight();
-});
 ```
 
 Installation

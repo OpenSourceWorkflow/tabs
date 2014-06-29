@@ -1,0 +1,20 @@
+{
+  "name": "tabs",
+  "main": "tabs.js",
+  "version": "1.0.0",
+  "homepage": "https://github.com/markusfalk/tabs",
+  "authors": [
+    "Markus Falk <mail@markus-falk.com>"
+  ],
+  "description": "Simple Tab Script",
+  "keywords": [
+    "tabs"
+  ],
+  "license": "MIT",
+    "ignore": [
+    "*.md"
+  ],
+  "dependencies": {
+    "jquery": ">1.7.0"
+  }
+}
