@@ -59,6 +59,11 @@ define(['jquery'], function() {
         Tabs.start_animation();
       // });
 
+      // events
+      this.$tab_element.each(function() {
+        $(this).trigger('tabs.initialized');
+      });
+
     },
     bindEvents: function() {
 
@@ -181,6 +186,9 @@ define(['jquery'], function() {
         // Inhalte animieren/einblenden
         Tabs.animate_content($target_tab);
 
+        // events
+        $target_tab.trigger('tabs.opened', [$target_tab_nav, $target_tab]);
+
       });
 
     },
@@ -189,13 +197,20 @@ define(['jquery'], function() {
       // initialen aufruf durch .animated-tabs verhindern
       if (Tabs.skip_anim > 0) {
         Tabs.$animatedTabs.each(function() {
-          Tabs.nextTab($(this));
+          var that = $(this);
+
+          Tabs.nextTab(that);
+
+          that.trigger('tabs.animated', that);
+
         });
       }
 
       // timeout erstellen und skip erhöhen damit if ausgeführt wird
       Tabs.animation = setTimeout(Tabs.start_animation, Tabs.autoplay_speed);
       Tabs.skip_anim = Tabs.skip_anim + 1;
+
+
 
     },
     stop_animation: function() {

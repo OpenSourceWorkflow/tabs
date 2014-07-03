@@ -35,6 +35,14 @@ Usage
 </div>
 ```
 
+Events
+------
+
+```javascript
+'tabs.opened' // passes next tab navigational element and content
+'tabs.animated' // passes .animated-tabs
+```
+
 Installation
 ------------
 
