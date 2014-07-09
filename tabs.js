@@ -164,10 +164,13 @@ define(['jquery'], function() {
                         .addClass('green');
 
         // neuen tab status ändern
-        $target_tab.fadeIn(this.fade_speed)
-                   .attr('aria-expanded', 'true')
-                   .attr('aria-hidden', 'false')
-                   .addClass('current-tab');
+        $target_tab.fadeIn(this.fade_speed, function() {
+          // events
+          $target_tab.trigger('tabs.opened', [$target_tab_nav, $target_tab]);
+        })
+         .attr('aria-expanded', 'true')
+         .attr('aria-hidden', 'false')
+         .addClass('current-tab');
 
         // prev next Klassen entfernen
         $current_tab_nav.prev().removeClass('prev-tab');
@@ -185,9 +188,6 @@ define(['jquery'], function() {
 
         // Inhalte animieren/einblenden
         Tabs.animate_content($target_tab);
-
-        // events
-        $target_tab.trigger('tabs.opened', [$target_tab_nav, $target_tab]);
 
       });
 
