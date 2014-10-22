@@ -9,7 +9,7 @@ define(['jquery'], function() {
   var Tabs = {
     animation: {}, //animation timeout @see Tabs.start_animation
     skip_anim: 0, // skip first call of animation_start();
-    cacheElements: function() {
+    _cacheElements: function() {
       this.$animatedTabs = $('.animated-tabs');
 
       this.$first_tab = $('.tab-content > div:first-child')
@@ -65,7 +65,7 @@ define(['jquery'], function() {
       });
 
     },
-    bindEvents: function() {
+    _bindEvents: function() {
 
       // mouse und enter events
       this.$tab_links.on('keydown', function(event) {
@@ -95,7 +95,7 @@ define(['jquery'], function() {
       });
 
     },
-    addARIAlabels: function() {
+    _addARIAlabels: function() {
       this.$tab_element.each(function(index) {
 
         var $tab_nav = $(this).find('> .tab-nav'),
@@ -117,7 +117,7 @@ define(['jquery'], function() {
 
       });
     },
-    nextTab: function($tab_element, $target_tab, $target_tab_nav) {
+    _nextTab: function($tab_element, $target_tab, $target_tab_nav) {
 
       var $current_tab = $tab_element.find('> div > .current-tab'),
           $current_tab_nav = $tab_element.find('> div > .current-tab-nav'),
@@ -192,7 +192,7 @@ define(['jquery'], function() {
       });
 
     },
-    start_animation: function() {
+    _start_animation: function() {
 
       // initialen aufruf durch .animated-tabs verhindern
       if (Tabs.skip_anim > 0) {
@@ -213,17 +213,20 @@ define(['jquery'], function() {
 
 
     },
-    stop_animation: function() {
+    _stop_animation: function() {
       clearTimeout(Tabs.animation);
     },
     /************************************************************
       @description Inhalte im Tab animieren
     *************************************************************/
-    animate_content: function($target_tab) {
+    _animate_content: function($target_tab) {
       $target_tab.children().hide().delay(0).fadeIn(200);
     }
   };
 
-  Tabs.init();
+  return {
+    init: Tabs.init
+  };
+
 
 });
