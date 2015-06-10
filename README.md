@@ -1,3 +1,6 @@
+# Notice
+The script needs some bugfixing. Until then I reccomend not using it. 
+
 tabs
 ====
 
