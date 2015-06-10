@@ -1,5 +1,7 @@
 # Notice
-The script needs some bugfixing. Until then I reccomend not using it. Pull request will be appreciated ;)
+The script needs some bugfixing. Until then I reccomend not using it. 
+
+Pull request will be appreciated ;)
 
 tabs
 ====
