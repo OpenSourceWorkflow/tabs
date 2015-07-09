@@ -1,14 +1,22 @@
+/**
+ * An accessible tab module with anmated content and autoplay
+ * @module Tabs
+ * @requires jquery
+ * @author Markus Falk, Rodger Rüdiger
+ */
+
 define(['jquery'], function() {
 
   'use strict';
 
-  /************************************************************
-  @description Eigenes Accordion Script ermöglicht das gleichzeitige
-  öffnen mehrerer Accordion-Einträge
-  *************************************************************/
   var Tabs = {
     animation: {}, //animation timeout @see Tabs._start_animation
     skip_anim: 0, // skip first call of animation_start();
+    /**
+     * Caches all jQuery Objects for later use.
+     * @function _cacheElements
+     * @private
+     */
     _cacheElements: function() {
       this.$animatedTabs = $('.animated-tabs');
 
@@ -42,6 +50,11 @@ define(['jquery'], function() {
       this.$tabs = $('.tab-content > div');
       this.$toggle_animation_items = $('body');
     },
+    /**
+     * Initiates the module.
+     * @function init
+     * @public
+     */
     init: function() {
 
       // Defaults
@@ -65,11 +78,16 @@ define(['jquery'], function() {
       });
 
     },
+    /**
+     * Binds all events to jQuery DOM objects.
+     * @function _bindEvents
+     * @private
+     */
     _bindEvents: function() {
 
-      // mouse und enter events
+      // mouse and keyboard events
       this.$tab_links.on('keydown', function(event) {
-        if (event.keyCode === 13) {
+        if (event.keyCode === 13) { // ENTER
           var $target_tab = $(this).attr('data-rel');
           Tabs._nextTab($(this).closest('.tabs'), $('#' + $target_tab), $(this));
         }
@@ -80,7 +98,7 @@ define(['jquery'], function() {
         Tabs._nextTab($(this).closest('.tabs'), $('#' + $target_tab), $(this));
       });
 
-      // Animation anhalten bei hover und bei Focus auf einem Tab
+      // stop animations when hovering of focusing a tab
       $('.main-theme').mouseenter(function() {
         Tabs._stop_animation();
       });
@@ -88,13 +106,18 @@ define(['jquery'], function() {
         Tabs._stop_animation();
       });
 
-      // Animation wieder abspielen
+      // resume animation
       $('.main-theme').on('mouseleave', function(event) {
         Tabs.skip_anim = 0; //Set timeout for next tab
         Tabs._start_animation();
       });
 
     },
+    /**
+     * Sets ARIA attributes.
+     * @function _addARIAlabels
+     * @private
+     */
     _addARIAlabels: function() {
       this.$tab_element.each(function(index) {
 
@@ -117,6 +140,14 @@ define(['jquery'], function() {
 
       });
     },
+    /**
+     * Selects  tab
+     * @function _nextTab
+     * @param {jQuery object} parent tab container
+     * @param {jQuery object} tab content of next tab
+     * @param {jQuery object} tab head of next tab
+     * @private
+     */
     _nextTab: function($tab_element, $target_tab, $target_tab_nav) {
 
       var $current_tab = $tab_element.find('> div > .current-tab'),
@@ -124,17 +155,17 @@ define(['jquery'], function() {
           tabs_amount = $tab_element.find('> .tab-content > div').length;
 
       if (!$target_tab) {
-        // @description Setzt bei Autoplay die nächste Folie und den nächsten Navigationpunkt.
-        // Setzt bei Klick den Zähler für das Autoplay auf den index des geklickten Tabs.
+        // enable next tab if autoplay enabled
+        // on tab click set autoplay to index of clicked tab
 
         if (Tabs.tab_number < tabs_amount) {
-          // Ende noch nicht erreicht
+          // check if current tab is the last
           $target_tab = $current_tab.next();
           $target_tab_nav = $current_tab_nav.next();
           Tabs.tab_number = Tabs.tab_number + 1;
 
         } else {
-          // Ende erreicht, beginne von vorn
+          // start over
           $target_tab = $tab_element.find('> .tab-content > div:first-child');
           $target_tab_nav = $tab_element.find('.tab-nav > .tab-header:first-child');
           Tabs.tab_number = 1;
@@ -143,26 +174,26 @@ define(['jquery'], function() {
 
       } else {
 
-        // @description Setzt bei Klick den Zähler für das Autoplay auf den index des geklickten Tabs.
+        // set autoplay counter to index of clicked tab
         if($tab_element.hasClass('animated-tabs')) {
           Tabs.tab_number = $target_tab_nav.index() + 1;
         }
       }
 
-      // @description Setzt 'current'-Status auf den nächsten Eintrag.
+      // set current state to next tab
       $current_tab.stop().fadeOut(this.fade_speed, function() {
 
-        // tab inhalt status ändern
+        // change state of tab content
         $current_tab.removeClass('current-tab')
                     .attr('aria-expanded', 'false')
                     .attr('aria-hidden', 'true');
 
-        // navi status ändern
+        // change state of tab head
         $current_tab_nav.removeClass('current-tab-nav')
                         .attr('tabindex', '0')
                         .attr('aria-selected', 'false');
 
-        // neuen tab status ändern
+        // set new tab state to current
         $target_tab.fadeIn(this.fade_speed, function() {
           // events
           $target_tab.trigger('tabs.opened', [$target_tab_nav, $target_tab]);
@@ -171,28 +202,33 @@ define(['jquery'], function() {
          .attr('aria-hidden', 'false')
          .addClass('current-tab');
 
-        // prev next Klassen entfernen
+        // remove classes for previous and next tab
         $current_tab_nav.prev().removeClass('prev-tab');
         $current_tab_nav.next().removeClass('next-tab');
 
-        // aktuellen navi status ändern
+        // change current tab state
         $target_tab_nav.addClass('current-tab-nav')
                       .removeAttr('tabindex')
                       .attr('aria-selected', 'true');
 
-        // prev next Klassen neu erstellen
+        // set classes for previous and next tab
         $target_tab_nav.next().addClass('next-tab');
         $target_tab_nav.prev().addClass('prev-tab');
 
-        // Inhalte animieren/einblenden
+        // animate tab content
         Tabs._animate_content($target_tab);
 
       });
 
     },
+    /**
+     * Starts animation of tabs.
+     * @function _start_animation
+     * @private
+     */
     _start_animation: function() {
 
-      // initialen aufruf durch .animated-tabs verhindern
+      // check if first animation should be skipped
       if (Tabs.skip_anim > 0) {
         Tabs.$animatedTabs.each(function() {
           var that = $(this);
@@ -204,24 +240,34 @@ define(['jquery'], function() {
         });
       }
 
-      // timeout erstellen und skip erhöhen damit if ausgeführt wird
+      // set timeout for animation and increases skip_anim to animate following tab changes
       Tabs.animation = setTimeout(Tabs._start_animation, Tabs.autoplay_speed);
       Tabs.skip_anim = Tabs.skip_anim + 1;
 
 
 
     },
+    /**
+     * Clears timeout of tab animation
+     * @function _stop_animation
+     * @private
+     */
     _stop_animation: function() {
       clearTimeout(Tabs.animation);
     },
-    /************************************************************
-      @description Inhalte im Tab animieren
-    *************************************************************/
+    /**
+     * Animates tab content.
+     * @function _animate_content
+     * @private
+     */
     _animate_content: function($target_tab) {
       $target_tab.children().hide().delay(0).stop().fadeIn(200);
     }
   };
 
-  Tabs.init();
+  return /** @alias module:Tabs */ {
+    /** init */
+    init: Tab.init
+  };
 
 });
