@@ -1,5 +1,5 @@
 # Notice
-The script needs some bugfixing. Until then I reccomend not using it. 
+The script needs some bugfixing. Until then I reccomend not using it.
 
 Pull request will be appreciated ;)
 
