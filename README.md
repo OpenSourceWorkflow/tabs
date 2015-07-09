@@ -1,5 +1,7 @@
 # Notice
-This is a mirror of https://github.com/markusfalk/tabs because I started some fixing
+The script needs some bugfixing. Until then I reccomend not using it.
+
+Pull request will be appreciated ;)
 
 tabs
 ====
@@ -44,4 +46,11 @@ Events
 ```javascript
 'tabs.opened' // passes next tab navigational element and content
 'tabs.animated' // passes .animated-tabs
+```
+
+Installation
+------------
+
+```shell
+bower install markusfalk/tabs
 ```
