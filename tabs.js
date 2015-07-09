@@ -7,9 +7,9 @@ define(['jquery'], function() {
   öffnen mehrerer Accordion-Einträge
   *************************************************************/
   var Tabs = {
-    animation: {}, //animation timeout @see Tabs.start_animation
+    animation: {}, //animation timeout @see Tabs._start_animation
     skip_anim: 0, // skip first call of animation_start();
-    cacheElements: function() {
+    _cacheElements: function() {
       this.$animatedTabs = $('.animated-tabs');
 
       this.$first_tab = $('.tab-content > div:first-child')
@@ -50,13 +50,13 @@ define(['jquery'], function() {
       this.tab_number = 1;
 
       // Functions
-      this.cacheElements();
-      this.bindEvents();
-      this.addARIAlabels();
+      this._cacheElements();
+      this._bindEvents();
+      this._addARIAlabels();
 
       // Animation bei Tabs starten
       // $('.animated-tabs').mf_DoItIfNeeded(function(){ //
-        // Tabs.start_animation();
+        // Tabs._start_animation();
       // });
 
       // events
@@ -65,37 +65,37 @@ define(['jquery'], function() {
       });
 
     },
-    bindEvents: function() {
+    _bindEvents: function() {
 
       // mouse und enter events
       this.$tab_links.on('keydown', function(event) {
         if (event.keyCode === 13) {
           var $target_tab = $(this).attr('data-rel');
-          Tabs.nextTab($(this).closest('.tabs'), $('#' + $target_tab), $(this));
+          Tabs._nextTab($(this).closest('.tabs'), $('#' + $target_tab), $(this));
         }
       });
       this.$tab_links.on('click', function(event) {
         event.preventDefault();
         var $target_tab = $(this).attr('data-rel');
-        Tabs.nextTab($(this).closest('.tabs'), $('#' + $target_tab), $(this));
+        Tabs._nextTab($(this).closest('.tabs'), $('#' + $target_tab), $(this));
       });
 
       // Animation anhalten bei hover und bei Focus auf einem Tab
       $('.main-theme').mouseenter(function() {
-        Tabs.stop_animation();
+        Tabs._stop_animation();
       });
       this.$tab_links.on('focus', function(event) {
-        Tabs.stop_animation();
+        Tabs._stop_animation();
       });
 
       // Animation wieder abspielen
       $('.main-theme').on('mouseleave', function(event) {
         Tabs.skip_anim = 0; //Set timeout for next tab
-        Tabs.start_animation();
+        Tabs._start_animation();
       });
 
     },
-    addARIAlabels: function() {
+    _addARIAlabels: function() {
       this.$tab_element.each(function(index) {
 
         var $tab_nav = $(this).find('> .tab-nav'),
@@ -117,7 +117,7 @@ define(['jquery'], function() {
 
       });
     },
-    nextTab: function($tab_element, $target_tab, $target_tab_nav) {
+    _nextTab: function($tab_element, $target_tab, $target_tab_nav) {
 
       var $current_tab = $tab_element.find('> div > .current-tab'),
           $current_tab_nav = $tab_element.find('> div > .current-tab-nav'),
@@ -187,19 +187,19 @@ define(['jquery'], function() {
         $target_tab_nav.prev().addClass('prev-tab');
 
         // Inhalte animieren/einblenden
-        Tabs.animate_content($target_tab);
+        Tabs._animate_content($target_tab);
 
       });
 
     },
-    start_animation: function() {
+    _start_animation: function() {
 
       // initialen aufruf durch .animated-tabs verhindern
       if (Tabs.skip_anim > 0) {
         Tabs.$animatedTabs.each(function() {
           var that = $(this);
 
-          Tabs.nextTab(that);
+          Tabs._nextTab(that);
 
           that.trigger('tabs.animated', that);
 
@@ -207,19 +207,19 @@ define(['jquery'], function() {
       }
 
       // timeout erstellen und skip erhöhen damit if ausgeführt wird
-      Tabs.animation = setTimeout(Tabs.start_animation, Tabs.autoplay_speed);
+      Tabs.animation = setTimeout(Tabs._start_animation, Tabs.autoplay_speed);
       Tabs.skip_anim = Tabs.skip_anim + 1;
 
 
 
     },
-    stop_animation: function() {
+    _stop_animation: function() {
       clearTimeout(Tabs.animation);
     },
     /************************************************************
       @description Inhalte im Tab animieren
     *************************************************************/
-    animate_content: function($target_tab) {
+    _animate_content: function($target_tab) {
       $target_tab.children().hide().delay(0).stop().fadeIn(200);
     }
   };
