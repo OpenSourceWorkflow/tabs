@@ -58,14 +58,14 @@ define(['jquery'], function() {
     init: function() {
 
       // Defaults
-      this.autoplay_speed = 5000;
-      this.fade_speed = 200;
-      this.tab_number = 1;
+      Tabs.autoplay_speed = 5000;
+      Tabs.fade_speed = 200;
+      Tabs.tab_number = 1;
 
       // Functions
-      this._cacheElements();
-      this._bindEvents();
-      this._addARIAlabels();
+      Tabs._cacheElements();
+      Tabs._bindEvents();
+      Tabs._addARIAlabels();
 
       // Animation bei Tabs starten
       // $('.animated-tabs').mf_DoItIfNeeded(function(){ //
@@ -73,7 +73,7 @@ define(['jquery'], function() {
       // });
 
       // events
-      this.$tab_element.each(function() {
+      Tabs.$tab_element.each(function() {
         $(this).trigger('tabs.initialized');
       });
 
@@ -86,13 +86,13 @@ define(['jquery'], function() {
     _bindEvents: function() {
 
       // mouse and keyboard events
-      this.$tab_links.on('keydown', function(event) {
+      Tabs.$tab_links.on('keydown', function(event) {
         if (event.keyCode === 13) { // ENTER
           var $target_tab = $(this).attr('data-rel');
           Tabs._nextTab($(this).closest('.tabs'), $('#' + $target_tab), $(this));
         }
       });
-      this.$tab_links.on('click', function(event) {
+      Tabs.$tab_links.on('click', function(event) {
         event.preventDefault();
         var $target_tab = $(this).attr('data-rel');
         Tabs._nextTab($(this).closest('.tabs'), $('#' + $target_tab), $(this));
@@ -102,7 +102,7 @@ define(['jquery'], function() {
       $('.main-theme').mouseenter(function() {
         Tabs._stop_animation();
       });
-      this.$tab_links.on('focus', function(event) {
+      Tabs.$tab_links.on('focus', function(event) {
         Tabs._stop_animation();
       });
 
@@ -119,7 +119,7 @@ define(['jquery'], function() {
      * @private
      */
     _addARIAlabels: function() {
-      this.$tab_element.each(function(index) {
+      Tabs.$tab_element.each(function(index) {
 
         var $tab_nav = $(this).find('> .tab-nav'),
             $tab_content = $(this).find('> .tab-content');
@@ -267,7 +267,7 @@ define(['jquery'], function() {
 
   return /** @alias module:Tabs */ {
     /** init */
-    init: Tab.init
+    init: Tabs.init
   };
 
 });
