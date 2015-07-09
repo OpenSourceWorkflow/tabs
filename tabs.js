@@ -160,8 +160,7 @@ define(['jquery'], function() {
         // navi status ändern
         $current_tab_nav.removeClass('current-tab-nav')
                         .attr('tabindex', '0')
-                        .attr('aria-selected', 'false')
-                        .addClass('green');
+                        .attr('aria-selected', 'false');
 
         // neuen tab status ändern
         $target_tab.fadeIn(this.fade_speed, function() {
@@ -179,8 +178,7 @@ define(['jquery'], function() {
         // aktuellen navi status ändern
         $target_tab_nav.addClass('current-tab-nav')
                       .removeAttr('tabindex')
-                      .attr('aria-selected', 'true')
-                      .removeClass('green');
+                      .attr('aria-selected', 'true');
 
         // prev next Klassen neu erstellen
         $target_tab_nav.next().addClass('next-tab');
