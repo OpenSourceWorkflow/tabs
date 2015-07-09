@@ -1,7 +1,5 @@
 # Notice
-The script needs some bugfixing. Until then I reccomend not using it. 
-
-Pull request will be appreciated ;)
+This is a mirror of https://github.com/markusfalk/tabs because I started on some fixing
 
 tabs
 ====

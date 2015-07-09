@@ -2,9 +2,10 @@
   "name": "tabs",
   "main": "tabs.js",
   "version": "2.0.2",
-  "homepage": "https://github.com/markusfalk/tabs",
+  "homepage": "https://github.com/SpikeShape/tabs",
   "authors": [
-    "Markus Falk <mail@markus-falk.com>"
+    "Markus Falk <mail@markus-falk.com>",
+    "Spike Shape <dev@spike-shape.de>"
   ],
   "description": "Simple Tab Script",
   "keywords": [
