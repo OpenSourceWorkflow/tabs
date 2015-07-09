@@ -1,4 +1,4 @@
-define(['jquery'], function($) {
+define(['jquery'], function() {
 
   'use strict';
 
@@ -9,7 +9,7 @@ define(['jquery'], function($) {
   var Tabs = {
     animation: {}, //animation timeout @see Tabs.start_animation
     skip_anim: 0, // skip first call of animation_start();
-    _cacheElements: function() {
+    cacheElements: function() {
       this.$animatedTabs = $('.animated-tabs');
 
       this.$first_tab = $('.tab-content > div:first-child')
@@ -56,7 +56,7 @@ define(['jquery'], function($) {
 
       // Animation bei Tabs starten
       // $('.animated-tabs').mf_DoItIfNeeded(function(){ //
-        Tabs.start_animation();
+        // Tabs.start_animation();
       // });
 
       // events
@@ -65,7 +65,7 @@ define(['jquery'], function($) {
       });
 
     },
-    _bindEvents: function() {
+    bindEvents: function() {
 
       // mouse und enter events
       this.$tab_links.on('keydown', function(event) {
@@ -95,7 +95,7 @@ define(['jquery'], function($) {
       });
 
     },
-    _addARIAlabels: function() {
+    addARIAlabels: function() {
       this.$tab_element.each(function(index) {
 
         var $tab_nav = $(this).find('> .tab-nav'),
@@ -117,7 +117,7 @@ define(['jquery'], function($) {
 
       });
     },
-    _nextTab: function($tab_element, $target_tab, $target_tab_nav) {
+    nextTab: function($tab_element, $target_tab, $target_tab_nav) {
 
       var $current_tab = $tab_element.find('> div > .current-tab'),
           $current_tab_nav = $tab_element.find('> div > .current-tab-nav'),
@@ -150,7 +150,7 @@ define(['jquery'], function($) {
       }
 
       // @description Setzt 'current'-Status auf den nächsten Eintrag.
-      $current_tab.fadeOut(this.fade_speed, function() {
+      $current_tab.stop().fadeOut(this.fade_speed, function() {
 
         // tab inhalt status ändern
         $current_tab.removeClass('current-tab')
@@ -192,7 +192,7 @@ define(['jquery'], function($) {
       });
 
     },
-    _start_animation: function() {
+    start_animation: function() {
 
       // initialen aufruf durch .animated-tabs verhindern
       if (Tabs.skip_anim > 0) {
@@ -213,20 +213,17 @@ define(['jquery'], function($) {
 
 
     },
-    _stop_animation: function() {
+    stop_animation: function() {
       clearTimeout(Tabs.animation);
     },
     /************************************************************
       @description Inhalte im Tab animieren
     *************************************************************/
-    _animate_content: function($target_tab) {
-      $target_tab.children().hide().delay(0).fadeIn(200);
+    animate_content: function($target_tab) {
+      $target_tab.children().hide().delay(0).stop().fadeIn(200);
     }
   };
 
-  return {
-    init: Tabs.init
-  };
-
+  Tabs.init();
 
 });
